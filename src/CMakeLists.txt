@@ -1,8 +1,8 @@
 
 find_package(PkgConfig REQUIRED)
 
-pkg_check_modules(XCB REQUIRED IMPORTED_TARGET xcb)
-pkg_check_modules(XCB_XINPUT REQUIRED IMPORTED_TARGET xcb-xinput)
+pkg_check_modules(X11 REQUIRED IMPORTED_TARGET x11)
+pkg_check_modules(XI REQUIRED IMPORTED_TARGET xi)
 
 find_package(ECM 1.0.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -18,6 +18,6 @@ set(CMAKE_AUTORCC ON)
 
 add_executable(touchscreen-calibrator main.cpp)
 
-target_link_libraries(touchscreen-calibrator PkgConfig::XCB PkgConfig::XCB_XINPUT)
+target_link_libraries(touchscreen-calibrator PkgConfig::X11 PkgConfig::XI)
 
 install(TARGETS touchscreen-calibrator RUNTIME DESTINATION bin)

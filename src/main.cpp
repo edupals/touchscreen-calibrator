@@ -17,8 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <xcb/xcb.h>
-#include <xcb/xinput.h>
+#include <X11/extensions/XInput.h>
 
 #include <iostream>
 
@@ -27,30 +26,54 @@ using namespace std;
 
 int main(int argc,char* argv[])
 {
-    xcb_connection_t *connection = xcb_connect (NULL, NULL);
     
-    clog<<"xinput devices:"<<endl;
+    XDeviceInfo *devices;
     
-    xcb_input_list_input_devices_cookie_t device_list_cookie;
-    xcb_input_list_input_devices_reply_t* device_list;
-    xcb_generic_error_t* error;
+    Display *dpy = XOpenDisplay(0);
     
-    device_list_cookie=xcb_input_list_input_devices(connection);
+    int num_devices;
+    devices = XListInputDevices(dpy, &num_devices);
     
-    device_list=xcb_input_list_input_devices_reply(connection,device_list_cookie,&error);
-    
-    xcb_input_device_info_t* device_info;
-    
-    device_info=xcb_input_list_input_devices_devices(device_list);
-    
-    while (device_info!=NULL) {
+    for (int n=0;n<num_devices;n++) {
+        clog<<"["<<devices[n].id<<"] "<<devices[n].name<<endl;
+        
+        int num_classes=devices[n].num_classes;
+        int c=0;
+        
+        if (num_classes>0) {
+            clog<<"classes: "<<num_classes<<endl;
+        }
+        
+        XAnyClassPtr p = devices[n].inputclassinfo;
+        
+        while (c<num_classes) {
+            clog<<"    class "<<p->c_class<<endl;
+            clog<<"    length "<<p->length<<endl;
+            
+            if (p->c_class==ValuatorClass) {
+                XValuatorInfo* info=(XValuatorInfo*)p;
+                
+                clog<<"        num axis: "<<(int)info->num_axes<<endl;
+                clog<<"        mode: "<<(int)info->mode<<endl;
+                
+                if (info->mode==Absolute) {
+                    XDevice* dev = XOpenDevice(dpy,devices[n].id);
+                    int num_props;
+                    Atom* props=XListDeviceProperties(dpy,dev,&num_props);
+                    
+                    for (int i=0;i<num_props;i++) {
+                        cout<<"            "<<XGetAtomName(dpy,props[i])<<endl;
+                    }
+                }
+            }
+            
+            p=(XAnyClassPtr)((char*)p+p->length);
+            c++;
+        }
         
     }
     
-    
-    
-    free(device_list);
-    
+     XFreeDeviceList(devices);
     
     return 0;
 }
