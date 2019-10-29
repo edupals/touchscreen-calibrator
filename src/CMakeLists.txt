@@ -11,13 +11,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-#find_package(Qt5 REQUIRED COMPONENTS Widgets Core Quick QuickWidgets)
-#find_package(KF5CoreAddons REQUIRED)
-#find_package(KF5I18n REQUIRED)
-#find_package(KF5KCMUtils REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets Quick)
 
-add_executable(touchscreen-calibrator main.cpp)
+add_executable(touchscreen-calibrator main.cpp calibrationwindow.cpp)
 
-target_link_libraries(touchscreen-calibrator PkgConfig::X11 PkgConfig::XI)
+target_link_libraries(touchscreen-calibrator PkgConfig::X11 PkgConfig::XI Qt5::Core Qt5::Widgets Qt5::Quick)
 
 install(TARGETS touchscreen-calibrator RUNTIME DESTINATION bin)
