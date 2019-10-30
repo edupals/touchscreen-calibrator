@@ -19,6 +19,8 @@
 
 #include "calibrationwindow.hpp"
 
-CalibrationWindow::CalibrationWindow() : QQuickWindow(nullptr)
+CalibrationWindow::CalibrationWindow() : QQuickView(nullptr)
 {
+    setSource(QUrl(QStringLiteral("qrc:/calibration.qml")));
+    showFullScreen();
 }

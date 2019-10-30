@@ -17,6 +17,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "calibrationwindow.hpp"
+
+#include <QApplication>
 #include <X11/extensions/XInput.h>
 
 #include <iostream>
@@ -73,7 +76,12 @@ int main(int argc,char* argv[])
         
     }
     
-     XFreeDeviceList(devices);
+    XFreeDeviceList(devices);
+     
+     
+    QApplication app(argc,argv);
     
-    return 0;
+    CalibrationWindow* cw=new CalibrationWindow();
+    
+    return app.exec();
 }

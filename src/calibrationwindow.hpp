@@ -20,9 +20,9 @@
 #ifndef TSC_CALIBRATION_WINDOW
 #define TSC_CALIBRATION_WINDOW
 
-#include <QQuickWindow>
+#include <QQuickView>
 
-class CalibrationWindow : public QQuickWindow
+class CalibrationWindow : public QQuickView
 {
     Q_OBJECT
     
