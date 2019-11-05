@@ -17,11 +17,39 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "calibrationwindow.hpp"
+#include "inputmanager.hpp"
 
-CalibrationWindow::CalibrationWindow() : QQuickView(nullptr)
+QList<InputManager*> InputManager::m_managers;
+
+InputManager::InputManager()
 {
-    setSource(QUrl(QStringLiteral("qrc:/calibration.qml")));
-    //showFullScreen();
-    show();
+}
+
+void InputManager::setBackend(QString backend)
+{
+    m_backend=backend;
+}
+
+void InputManager::add(InputManager* manager)
+{
+    InputManager::m_managers.push_back(manager);
+}
+
+void InputManager::remove(InputManager* manager)
+{
+    InputManager::m_managers.removeAll(manager);
+}
+
+QList<InputManager*> InputManager::managers()
+{
+    return InputManager::m_managers;
+}
+
+InputManager::~InputManager()
+{
+}
+
+QString InputManager::backend()
+{
+    return m_backend;
 }

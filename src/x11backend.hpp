@@ -17,11 +17,43 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "calibrationwindow.hpp"
+#ifndef TSC_X11_BACKEND
+#define TSC_X11_BACKEND
 
-CalibrationWindow::CalibrationWindow() : QQuickView(nullptr)
+#include "inputmanager.hpp"
+#include "inputdevice.hpp"
+
+#include <QList>
+#include <QDebug>
+
+#include <X11/extensions/XInput.h>
+
+class X11InputDevice: public InputDevice
 {
-    setSource(QUrl(QStringLiteral("qrc:/calibration.qml")));
-    //showFullScreen();
-    show();
-}
+    protected:
+        
+    XID m_deviceid;
+    
+    public:
+        
+    X11InputDevice(InputManager* manager, XID deviceid);
+    
+};
+
+class X11InputManager: public InputManager
+{
+    protected:
+        
+    QList<X11InputDevice> m_devices;
+    
+    void update();
+    
+    public:
+    
+    X11InputManager();
+    ~X11InputManager();
+    
+    QList<InputDevice*> devices() override;
+};
+
+#endif

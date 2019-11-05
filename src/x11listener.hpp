@@ -17,11 +17,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "calibrationwindow.hpp"
+#ifndef TSC_X11_LISTENER
+#define TSC_X11_LISTENER
 
-CalibrationWindow::CalibrationWindow() : QQuickView(nullptr)
+#include <QThread>
+#include <QWindow>
+
+class X11Listener : public QThread
 {
-    setSource(QUrl(QStringLiteral("qrc:/calibration.qml")));
-    //showFullScreen();
-    show();
-}
+    Q_OBJECT
+    
+    private:
+    
+    WId target;
+    
+    public:
+    
+    X11Listener(WId id);
+    
+    void run() override;
+};
+
+#endif

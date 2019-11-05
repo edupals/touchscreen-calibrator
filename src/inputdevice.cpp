@@ -17,11 +17,32 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "calibrationwindow.hpp"
+#include "inputdevice.hpp"
 
-CalibrationWindow::CalibrationWindow() : QQuickView(nullptr)
+void InputDevice::setName(const QString& name)
 {
-    setSource(QUrl(QStringLiteral("qrc:/calibration.qml")));
-    //showFullScreen();
-    show();
+    m_name=name;
+}
+
+void InputDevice::setManager(InputManager* manager)
+{
+    m_manager=manager;
+}
+
+InputDevice::InputDevice()
+{
+}
+
+InputDevice::~InputDevice()
+{
+}
+
+QString InputDevice::name() const
+{
+    return m_name;
+}
+
+InputManager* InputDevice::manager()
+{
+    return m_manager;
 }

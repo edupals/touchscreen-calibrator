@@ -18,6 +18,8 @@
 */
 
 #include "calibrationwindow.hpp"
+#include "x11listener.hpp"
+#include "inputmanager.hpp"
 
 #include <QApplication>
 #include <X11/extensions/XInput.h>
@@ -81,7 +83,21 @@ int main(int argc,char* argv[])
      
     QApplication app(argc,argv);
     
-    CalibrationWindow* cw=new CalibrationWindow();
     
-    return app.exec();
+    QList<InputManager*> backends = InputManager::managers();
+    
+    for (int n=0;n<backends.count();n++) {
+        qDebug()<<"backend:"<<backends[n]->backend();
+    }
+    
+    CalibrationWindow* cw=new CalibrationWindow();
+    X11Listener listener(cw->winId());
+    listener.start();
+    
+    app.exec();
+    
+    listener.terminate();
+    listener.wait();
+    
+    return 0;
 }
