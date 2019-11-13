@@ -19,16 +19,6 @@
 
 #include "x11backend.hpp"
 
-
-X11InputManager s_manager;
-
-X11InputDevice::X11InputDevice(InputManager* manager ,XID deviceid)
-{
-    setManager(manager);
-    m_deviceid=deviceid;
-    setName(QString("dummy dev [")+m_deviceid+"]");
-}
-
 X11InputManager::X11InputManager()
 {
     
@@ -69,8 +59,8 @@ QList<InputDevice*> X11InputManager::devices()
 {
     QList<InputDevice*> ret;
     
-    for (int n=0;n<m_devices.count();n++) {
-        ret.push_back(&m_devices[n]);
+    for (size_t n=0;n<m_devices.count();n++) {
+        ret.push_back(m_devices[n]);
     }
     
     return ret;

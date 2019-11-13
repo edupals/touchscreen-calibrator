@@ -17,28 +17,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TSC_X11_BACKEND
-#define TSC_X11_BACKEND
+#ifndef TSC_X11_DEVICE
+#define TSC_X11_DEVICE
 
-#include "inputbackend.hpp"
-#include "x11device.hpp"
+#include "inputdevice.hpp"
 
-#include <QList>
-#include <QDebug>
+#include <X11/extensions/XInput.h>
 
-class X11InputBackend: public InputBackend
+class X11InputDevice: public InputDevice
 {
+    
     protected:
-        
-    QList<X11InputDevice*> m_devices;
+    
+    XID m_id;
     
     public:
     
-    X11InputBackend();
-    ~X11InputBackend();
+    X11InputDevice(XID id);
+    virtual ~X11InputDevice();
     
-    void update() override;
-    QList<InputDevice*> devices() override;
 };
 
 #endif
