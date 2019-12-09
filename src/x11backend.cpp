@@ -19,43 +19,76 @@
 
 #include "x11backend.hpp"
 
-X11InputManager::X11InputManager()
+#include <X11/extensions/XInput.h>
+
+#define TSC_X11_BACKEND_NAME "x11.xinput.xlib"
+
+/* static factory */
+X11Factory factory;
+
+X11InputBackend::X11InputBackend()
 {
     
-    setBackend("x11.xinput.xlib");
+    setName(TSC_X11_BACKEND_NAME);
     
     //fake some devices
     for (int n=0;n<6;n++) {
-        X11InputDevice dev(this,n);
         
-        m_devices.push_back(dev);
+        m_devices.push_back(new X11InputDevice(n));
     }
     
-    InputManager::add(this);
 }
 
-X11InputManager::~X11InputManager()
+X11InputBackend::~X11InputBackend()
 {
     
-    InputManager::remove(this);
 }
 
-void X11InputManager::update()
+void X11InputBackend::update()
 {
     m_devices.clear();
     
-    XDeviceInfo *devices;
+    XDeviceInfo* devices;
     
-    Display *display = XOpenDisplay(0);
+    Display* display = XOpenDisplay(0);
     
     int num_devices;
     devices = XListInputDevices(display, &num_devices);
     
+    for (int n=0;n<num_devices;n++) {
+        
+        XAnyClassPtr p = devices[n].inputclassinfo;
+        for (int c=0;c<devices[n].num_classes;c++) {
+            
+            if (p->c_class==ValuatorClass) {
+                XValuatorInfo* info=(XValuatorInfo*)p;
+                
+                if (info->mode==Absolute) {
+                    /*
+                    XDevice* dev = XOpenDevice(dpy,devices[n].id);
+                    int num_props;
+                    Atom* props=XListDeviceProperties(dpy,dev,&num_props);
+                    
+                    for (int i=0;i<num_props;i++) {
+                        cout<<"            "<<XGetAtomName(dpy,props[i])<<endl;
+                    }
+                    */
+                }
+                
+                //hack
+                X11InputDevice* x11device = new X11InputDevice(devices[n].id);
+                
+                m_devices.push_back(x11device);
+            }
+            
+            p=(XAnyClassPtr)((char*)p+p->length);
+        }
+    }
     
     XFreeDeviceList(devices);
 }
 
-QList<InputDevice*> X11InputManager::devices()
+QList<InputDevice*> X11InputBackend::devices()
 {
     QList<InputDevice*> ret;
     
@@ -64,4 +97,19 @@ QList<InputDevice*> X11InputManager::devices()
     }
     
     return ret;
+}
+
+X11Factory::X11Factory()
+{
+    BackendFactory::m_factories[TSC_X11_BACKEND_NAME]=this;
+    m_backend=nullptr;
+}
+
+const InputBackend* X11Factory::get()
+{
+    if (!m_backend) {
+        m_backend = new X11InputBackend();
+    }
+    
+    return m_backend;
 }

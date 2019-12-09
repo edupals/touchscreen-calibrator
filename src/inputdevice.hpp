@@ -22,16 +22,12 @@
 
 #include <QString>
 
-class InputManager;
-
 class InputDevice
 {
     protected:
     QString m_name;
-    InputManager* m_manager;
     
     void setName(const QString& name);
-    void setManager(InputManager* manager);
     
     public:
     
@@ -39,7 +35,6 @@ class InputDevice
     virtual ~InputDevice();
     
     QString name() const;
-    InputManager* manager();
     
 };
 

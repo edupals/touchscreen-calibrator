@@ -24,11 +24,6 @@ void InputDevice::setName(const QString& name)
     m_name=name;
 }
 
-void InputDevice::setManager(InputManager* manager)
-{
-    m_manager=manager;
-}
-
 InputDevice::InputDevice()
 {
 }
@@ -40,9 +35,4 @@ InputDevice::~InputDevice()
 QString InputDevice::name() const
 {
     return m_name;
-}
-
-InputManager* InputDevice::manager()
-{
-    return m_manager;
 }

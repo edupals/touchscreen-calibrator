@@ -24,7 +24,6 @@
 #include "x11device.hpp"
 
 #include <QList>
-#include <QDebug>
 
 class X11InputBackend: public InputBackend
 {
@@ -39,6 +38,15 @@ class X11InputBackend: public InputBackend
     
     void update() override;
     QList<InputDevice*> devices() override;
+};
+
+class X11Factory: public BackendFactory
+{
+    public:
+    
+    X11Factory();
+    const InputBackend* get() override;
+
 };
 
 #endif

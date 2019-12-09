@@ -19,12 +19,14 @@
 
 #include "calibrationwindow.hpp"
 #include "x11listener.hpp"
-#include "inputmanager.hpp"
+#include "inputbackend.hpp"
 
 #include <QApplication>
+#include <QString>
 #include <X11/extensions/XInput.h>
 
 #include <iostream>
+#include <map>
 
 using namespace std;
 
@@ -83,12 +85,12 @@ int main(int argc,char* argv[])
      
     QApplication app(argc,argv);
     
+    const map<QString,BackendFactory*> backends = BackendFactory::factories();
     
-    QList<InputManager*> backends = InputManager::managers();
-    
-    for (int n=0;n<backends.count();n++) {
-        qDebug()<<"backend:"<<backends[n]->backend();
+    for (auto b : backends) {
+        qDebug()<<"* backend:"<<b.first;
     }
+    
     
     CalibrationWindow* cw=new CalibrationWindow();
     X11Listener listener(cw->winId());

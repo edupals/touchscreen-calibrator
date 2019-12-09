@@ -19,6 +19,10 @@
 
 #include "inputbackend.hpp"
 
+using namespace std;
+
+map<QString,BackendFactory*> BackendFactory::m_factories;
+
 void InputBackend::setName(QString name)
 {
     m_name=name;
@@ -32,7 +36,7 @@ InputBackend::~InputBackend()
 {
 }
 
-QString InputBackend::name()
+QString InputBackend::name() const
 {
     return m_name;
 }

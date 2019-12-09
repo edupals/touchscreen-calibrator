@@ -22,6 +22,8 @@
 
 #include <QString>
 
+#include <map>
+
 class InputDevice;
 
 class InputBackend
@@ -42,6 +44,36 @@ class InputBackend
     virtual void update()=0;
     virtual QList<InputDevice*> devices()=0;
     
+};
+
+class BackendFactory
+{
+    protected:
+    
+    static std::map<QString,BackendFactory*> m_factories;
+    
+    InputBackend* m_backend;
+    
+    public:
+    
+    BackendFactory()
+    {
+        m_backend=nullptr;
+    }
+    
+    virtual ~BackendFactory()
+    {
+        if (m_backend) {
+            delete m_backend;
+        }
+    }
+    
+    static const std::map<QString,BackendFactory*> factories()
+    {
+        return m_factories;
+    }
+    
+    virtual const InputBackend* get()=0;
 };
 
 #endif
