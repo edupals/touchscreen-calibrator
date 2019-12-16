@@ -20,6 +20,7 @@
 #include "calibrationwindow.hpp"
 #include "x11listener.hpp"
 #include "inputbackend.hpp"
+#include "inputdevice.hpp"
 
 #include <QApplication>
 #include <QString>
@@ -33,65 +34,25 @@ using namespace std;
 
 int main(int argc,char* argv[])
 {
-    
-    XDeviceInfo *devices;
-    
-    Display *dpy = XOpenDisplay(0);
-    
-    int num_devices;
-    devices = XListInputDevices(dpy, &num_devices);
-    
-    for (int n=0;n<num_devices;n++) {
-        clog<<"["<<devices[n].id<<"] "<<devices[n].name<<endl;
-        
-        int num_classes=devices[n].num_classes;
-        int c=0;
-        
-        if (num_classes>0) {
-            clog<<"classes: "<<num_classes<<endl;
-        }
-        
-        XAnyClassPtr p = devices[n].inputclassinfo;
-        
-        while (c<num_classes) {
-            clog<<"    class "<<p->c_class<<endl;
-            clog<<"    length "<<p->length<<endl;
-            
-            if (p->c_class==ValuatorClass) {
-                XValuatorInfo* info=(XValuatorInfo*)p;
-                
-                clog<<"        num axis: "<<(int)info->num_axes<<endl;
-                clog<<"        mode: "<<(int)info->mode<<endl;
-                
-                if (info->mode==Absolute) {
-                    XDevice* dev = XOpenDevice(dpy,devices[n].id);
-                    int num_props;
-                    Atom* props=XListDeviceProperties(dpy,dev,&num_props);
-                    
-                    for (int i=0;i<num_props;i++) {
-                        cout<<"            "<<XGetAtomName(dpy,props[i])<<endl;
-                    }
-                }
-            }
-            
-            p=(XAnyClassPtr)((char*)p+p->length);
-            c++;
-        }
-        
-    }
-    
-    XFreeDeviceList(devices);
-     
      
     QApplication app(argc,argv);
     
-    const map<QString,BackendFactory*> backends = BackendFactory::factories();
+    map<QString,BackendFactory*> backends = BackendFactory::factories();
     
     for (auto b : backends) {
         qDebug()<<"* backend:"<<b.first;
     }
     
+    InputBackend* backend = backends["x11.xinput.xlib"]->get();
+    backend->update();
     
+    qDebug()<<"devices:";
+    
+    for (InputDevice* device:backend->devices()) {
+        qDebug()<<"-"<<device->name();
+    }
+    
+    /*
     CalibrationWindow* cw=new CalibrationWindow();
     X11Listener listener(cw->winId());
     listener.start();
@@ -100,6 +61,6 @@ int main(int argc,char* argv[])
     
     listener.terminate();
     listener.wait();
-    
+    */
     return 0;
 }

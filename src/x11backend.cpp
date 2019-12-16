@@ -31,12 +31,6 @@ X11InputBackend::X11InputBackend()
     
     setName(TSC_X11_BACKEND_NAME);
     
-    //fake some devices
-    for (int n=0;n<6;n++) {
-        
-        m_devices.push_back(new X11InputDevice(n));
-    }
-    
 }
 
 X11InputBackend::~X11InputBackend()
@@ -46,6 +40,8 @@ X11InputBackend::~X11InputBackend()
 
 void X11InputBackend::update()
 {
+    //TODO: delete device pointers
+    
     m_devices.clear();
     
     XDeviceInfo* devices;
@@ -76,7 +72,7 @@ void X11InputBackend::update()
                 }
                 
                 //hack
-                X11InputDevice* x11device = new X11InputDevice(devices[n].id);
+                X11InputDevice* x11device = new X11InputDevice(devices[n].id,devices[n].name);
                 
                 m_devices.push_back(x11device);
             }
@@ -105,7 +101,7 @@ X11Factory::X11Factory()
     m_backend=nullptr;
 }
 
-const InputBackend* X11Factory::get()
+InputBackend* X11Factory::get()
 {
     if (!m_backend) {
         m_backend = new X11InputBackend();

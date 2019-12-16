@@ -19,10 +19,10 @@
 
 #include "x11device.hpp"
 
-X11InputDevice::X11InputDevice(XID id)
+X11InputDevice::X11InputDevice(XID id, QString name)
 {
     m_id=id;
-    setName(QString("dummy dev [")+m_id+"]");
+    setName(name);
 }
 
 X11InputDevice::~X11InputDevice()

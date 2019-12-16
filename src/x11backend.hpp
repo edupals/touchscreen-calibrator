@@ -45,7 +45,7 @@ class X11Factory: public BackendFactory
     public:
     
     X11Factory();
-    const InputBackend* get() override;
+    InputBackend* get() override;
 
 };
 

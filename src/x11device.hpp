@@ -24,6 +24,8 @@
 
 #include <X11/extensions/XInput.h>
 
+#include <QString>
+
 class X11InputDevice: public InputDevice
 {
     
@@ -33,7 +35,7 @@ class X11InputDevice: public InputDevice
     
     public:
     
-    X11InputDevice(XID id);
+    X11InputDevice(XID id, QString name);
     virtual ~X11InputDevice();
     
 };

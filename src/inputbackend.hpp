@@ -68,12 +68,12 @@ class BackendFactory
         }
     }
     
-    static const std::map<QString,BackendFactory*> factories()
+    static std::map<QString,BackendFactory*> factories()
     {
         return m_factories;
     }
     
-    virtual const InputBackend* get()=0;
+    virtual InputBackend* get()=0;
 };
 
 #endif
