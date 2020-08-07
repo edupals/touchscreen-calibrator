@@ -1,7 +1,7 @@
 /*
     touchscreen-calibrator
 
-    Copyright (C) 2019  Enrique Medina Gremaldos <quiqueiii@gmail.com>
+    Copyright (C) 2020  Enrique Medina Gremaldos <quiqueiii@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,29 +17,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TSC_CALIBRATION_WINDOW
-#define TSC_CALIBRATION_WINDOW
-
-#include "inputbackend.hpp"
-#include "inputdevice.hpp"
 #include "proxy.hpp"
 
-#include <QQuickView>
-
-class CalibrationWindow : public QQuickView
+ProxyBackend::ProxyBackend(InputBackend* backend)
 {
-    Q_OBJECT
-    
-    public:
-    ProxyBackend* proxy;
-    
-    CalibrationWindow(InputBackend* backend);
-    
-    public slots:
-    
-    void onCancel();
-    void onAccept(quint32 id);
-    
-};
+    uint32_t n=0;
+    for (InputDevice* device : backend->devices()) {
+        ProxyDevice* pd = new ProxyDevice(n,device->name());
+        m_devices.append(pd);
+        n++;
+    }
+}
 
-#endif
+void ProxyBackend::cancel()
+{
+    emit canceled();
+}
+
+void ProxyBackend::accept(quint32 id)
+{
+    emit accepted(id);
+}

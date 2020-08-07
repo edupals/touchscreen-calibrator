@@ -35,7 +35,7 @@ using namespace std;
 
 int main(int argc,char* argv[])
 {
-     
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc,argv);
     
     map<QString,BackendFactory*> backends = BackendFactory::factories();
@@ -53,10 +53,10 @@ int main(int argc,char* argv[])
         qDebug()<<"-"<<device->name();
     }
     
-    SelectionWindow* swindow = new SelectionWindow(backend);
-    swindow->exec();
-    /*
-    CalibrationWindow* cw=new CalibrationWindow();
+    //SelectionWindow* swindow = new SelectionWindow(backend);
+    //swindow->exec();
+    
+    CalibrationWindow* cw=new CalibrationWindow(backend);
     X11Listener listener(cw->winId());
     listener.start();
     
@@ -64,6 +64,6 @@ int main(int argc,char* argv[])
     
     listener.terminate();
     listener.wait();
-    */
+    
     return 0;
 }

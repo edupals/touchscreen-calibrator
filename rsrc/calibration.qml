@@ -1,13 +1,54 @@
+import org.kde.kirigami 2.4 as Kirigami
 import QtQuick 2.6
+import QtQuick.Controls 2.6 as QQC2
 
 Canvas
 {
-    id: calibrationwindow
+    id: calibrationWindow
     anchors.fill: parent
     property variant pointState:[0,0,0,0]
     property variant current: 0
     //var currentPoint=0
+
+    QQC2.Frame {
     
+        width:500
+        height:500
+        anchors.centerIn: parent
+        
+        ListView {
+            //anchors.fill:parent
+            height:450
+            width:parent.width
+            id: devicesList
+            currentIndex: 2
+            model: devices
+            delegate: Kirigami.BasicListItem {
+                label: devices[index].name
+                checkable: true
+                checked: devicesList.currentIndex == index
+                separatorVisible: true
+                reserveSpaceForIcon: false
+            }
+        }
+        
+        Row {
+            anchors.top: devicesList.bottom
+            anchors.right:parent.right
+            spacing:10
+            
+            QQC2.Button {
+                text: "Cancel"
+                onClicked: cancel();
+            }
+            QQC2.Button {
+                text: "Accept"
+                onClicked: accept(devices[devicesList.currentIndex].id);
+            }
+        }
+        
+    }
+
     onPaint: {
         var ctx = getContext("2d");
         ctx.fillStyle = "#fcfcfc";
@@ -81,17 +122,17 @@ Canvas
         repeat: true
         
         onTriggered: {
-            var status=calibrationwindow.pointState[calibrationwindow.current];
+            var status=calibrationWindow.pointState[calibrationWindow.current];
             
             if (status<10) {
-                calibrationwindow.pointState[calibrationwindow.current]=status+1;
+                calibrationWindow.pointState[calibrationWindow.current]=status+1;
             }
             else {
                 running=false;
-                calibrationwindow.current=(calibrationwindow.current+1)%4;
+                calibrationWindow.current=(calibrationWindow.current+1)%4;
             }
             
-            calibrationwindow.requestPaint();
+            calibrationWindow.requestPaint();
         }
     }
     
@@ -105,10 +146,10 @@ Canvas
         onReleased: {
             timer.stop()
             
-            var status=calibrationwindow.pointState[calibrationwindow.current];
+            var status=calibrationWindow.pointState[calibrationWindow.current];
             
             if (status>0 && status<10) {
-                calibrationwindow.pointState[calibrationwindow.current]=0;
+                calibrationWindow.pointState[calibrationWindow.current]=0;
             }
         }
     }

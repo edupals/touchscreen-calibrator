@@ -19,9 +19,33 @@
 
 #include "calibrationwindow.hpp"
 
-CalibrationWindow::CalibrationWindow() : QQuickView(nullptr)
+#include <QStringListModel>
+#include <QQmlContext>
+
+#include <iostream>
+
+using namespace std;
+
+CalibrationWindow::CalibrationWindow(InputBackend* backend) : QQuickView(nullptr)
 {
+    
+    proxy = new ProxyBackend(backend);
+    connect(proxy,&ProxyBackend::accepted,this,&CalibrationWindow::onAccept);
+    connect(proxy,&ProxyBackend::canceled,this,&CalibrationWindow::onCancel);
+    
+    rootContext()->setContextObject(proxy);
     setSource(QUrl(QStringLiteral("qrc:/calibration.qml")));
+    
     //showFullScreen();
     show();
+}
+
+void CalibrationWindow::onCancel()
+{
+    clog<<"cancel"<<endl;
+}
+
+void CalibrationWindow::onAccept(quint32 id)
+{
+    clog<<"accept "<<id<<endl;
 }
