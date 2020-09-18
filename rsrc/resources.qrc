@@ -1,6 +1,5 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file>calibration.qml</file>
-    <file>devices.qml</file>
 </qresource>
 </RCC>

@@ -10,11 +10,19 @@ Canvas
     property variant current: 0
     //var currentPoint=0
 
-    QQC2.Frame {
+    QQC2.Dialog {
     
         width:500
         height:500
         anchors.centerIn: parent
+        modal: true
+        visible:true
+        title: "Select an input device"
+        standardButtons: QQC2.Dialog.Ok | QQC2.Dialog.Cancel
+        
+        //onAccepted: accept(devices[devicesList.currentIndex].id);
+        onAccepted: proxy.accept(proxy.devices[devicesList.currentIndex].id);
+        onRejected: proxy.cancel();
         
         ListView {
             //anchors.fill:parent
@@ -22,16 +30,16 @@ Canvas
             width:parent.width
             id: devicesList
             currentIndex: 2
-            model: devices
+            model: proxy.devices
             delegate: Kirigami.BasicListItem {
-                label: devices[index].name
+                label: proxy.devices[index].name
                 checkable: true
                 checked: devicesList.currentIndex == index
                 separatorVisible: true
                 reserveSpaceForIcon: false
             }
         }
-        
+        /*
         Row {
             anchors.top: devicesList.bottom
             anchors.right:parent.right
@@ -46,7 +54,7 @@ Canvas
                 onClicked: accept(devices[devicesList.currentIndex].id);
             }
         }
-        
+        */
     }
 
     onPaint: {

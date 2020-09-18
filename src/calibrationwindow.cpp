@@ -33,7 +33,7 @@ CalibrationWindow::CalibrationWindow(InputBackend* backend) : QQuickView(nullptr
     connect(proxy,&ProxyBackend::accepted,this,&CalibrationWindow::onAccept);
     connect(proxy,&ProxyBackend::canceled,this,&CalibrationWindow::onCancel);
     
-    rootContext()->setContextObject(proxy);
+    rootContext()->setContextProperty("proxy",proxy);
     setSource(QUrl(QStringLiteral("qrc:/calibration.qml")));
     
     //showFullScreen();
@@ -43,6 +43,7 @@ CalibrationWindow::CalibrationWindow(InputBackend* backend) : QQuickView(nullptr
 void CalibrationWindow::onCancel()
 {
     clog<<"cancel"<<endl;
+    close();
 }
 
 void CalibrationWindow::onAccept(quint32 id)
