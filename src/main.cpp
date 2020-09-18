@@ -32,7 +32,6 @@
 
 using namespace std;
 
-
 int main(int argc,char* argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -57,13 +56,13 @@ int main(int argc,char* argv[])
     //swindow->exec();
     
     CalibrationWindow* cw=new CalibrationWindow(backend);
-    X11Listener listener(cw->winId());
-    listener.start();
+    //X11Listener listener(cw->winId());
+    //listener.start();
     
     app.exec();
     
-    listener.terminate();
-    listener.wait();
+    //listener.terminate();
+    //listener.wait();
     
     return 0;
 }

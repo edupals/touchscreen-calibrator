@@ -19,6 +19,8 @@
 
 #include "proxy.hpp"
 
+#include <QDebug>
+
 ProxyBackend::ProxyBackend(InputBackend* backend)
 {
     uint32_t n=0;
@@ -27,6 +29,8 @@ ProxyBackend::ProxyBackend(InputBackend* backend)
         m_devices.append(pd);
         n++;
     }
+    
+    m_backend=backend;
 }
 
 void ProxyBackend::cancel()
@@ -37,4 +41,9 @@ void ProxyBackend::cancel()
 void ProxyBackend::accept(quint32 id)
 {
     emit accepted(id);
+    
+    //ToDo: safe this a little
+    InputDevice* target=m_backend->devices()[id];
+    
+    qInfo()<<"Listening events for:"<<target->name();
 }
