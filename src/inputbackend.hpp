@@ -21,6 +21,7 @@
 #define TSC_INPUT_BACKEND
 
 #include <QString>
+#include <QWindow>
 
 #include <map>
 
@@ -43,7 +44,11 @@ class InputBackend
     
     virtual void update()=0;
     virtual QList<InputDevice*> devices()=0;
+    virtual void listen(QWindow* window,InputDevice* device)=0;
     
+    signals:
+    
+    void buttonPressed(int32_t x,int32_t y);
 };
 
 class BackendFactory

@@ -95,6 +95,10 @@ QList<InputDevice*> X11InputBackend::devices()
     return ret;
 }
 
+void X11InputBackend::listen(QWindow* window,InputDevice* device)
+{
+}
+
 X11Factory::X11Factory()
 {
     BackendFactory::m_factories[TSC_X11_BACKEND_NAME]=this;
