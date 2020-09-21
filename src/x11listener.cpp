@@ -17,39 +17,40 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "x11listener.hpp"
-
 #include <QDebug>
+
+#include "x11listener.hpp"
+#include "x11device.hpp"
 
 #include <X11/Xlib.h>
 #include <X11/extensions/XInput.h>
 
-X11Listener::X11Listener(WId id)
+X11Listener::X11Listener(WId window,InputDevice* device)
 {
-    this->target=id;
-    qDebug()<<"Listen events for "<<id;
+    this->targetWindow=window;
+    this->targetDevice=static_cast<X11InputDevice*>(device);
+    
 }
 
 void X11Listener::run()
 {
     Display *display = XOpenDisplay(0);
-    Window window = target;
     XEvent event;
     
-    XDevice* device = XOpenDevice(display,9);
+    XDevice* device = XOpenDevice(display,targetDevice->xid());
     XEventClass cls;
-    int button_press;
-    DeviceButtonPress(device,button_press,cls);
-    XSelectExtensionEvent(display,window,&cls,1);
+    int buttonPress;
+    DeviceButtonPress(device,buttonPress,cls);
+    XSelectExtensionEvent(display,targetWindow,&cls,1);
     
-    while (true) {
+    while (!isFinished()) {
         
         XNextEvent(display,&event);
         
-        if (event.type==button_press) {
-            XDeviceButtonPressedEvent* event_press = reinterpret_cast<XDeviceButtonPressedEvent*> (&event);
+        if (event.type==buttonPress) {
+            XDeviceButtonPressedEvent* eventPress = reinterpret_cast<XDeviceButtonPressedEvent*> (&event);
             
-            qDebug()<<"coords:"<<event_press->x<<","<<event_press->y;
+            qDebug()<<"coords:"<<eventPress->x<<","<<eventPress->y;
         }
     }
 }

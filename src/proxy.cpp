@@ -21,7 +21,7 @@
 
 #include <QDebug>
 
-ProxyBackend::ProxyBackend(InputBackend* backend)
+ProxyBackend::ProxyBackend(InputBackend* backend,QWindow* window)
 {
     uint32_t n=0;
     for (InputDevice* device : backend->devices()) {
@@ -31,6 +31,7 @@ ProxyBackend::ProxyBackend(InputBackend* backend)
     }
     
     m_backend=backend;
+    m_window=window;
 }
 
 void ProxyBackend::cancel()
@@ -46,4 +47,6 @@ void ProxyBackend::accept(quint32 id)
     InputDevice* target=m_backend->devices()[id];
     
     qInfo()<<"Listening events for:"<<target->name();
+    
+    m_backend->listen(m_window,target);
 }

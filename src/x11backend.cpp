@@ -21,7 +21,11 @@
 
 #include <X11/extensions/XInput.h>
 
+#include <iostream>
+
 #define TSC_X11_BACKEND_NAME "x11.xinput.xlib"
+
+using namespace std;
 
 /* static factory */
 X11Factory factory;
@@ -97,6 +101,15 @@ QList<InputDevice*> X11InputBackend::devices()
 
 void X11InputBackend::listen(QWindow* window,InputDevice* device)
 {
+    listener = new X11Listener(window->winId(),device);
+    //connect(listener,&X11Listener::buttonPressed,this,&X11InputBackend::OnButtonPressed);
+    listener->start();
+    clog<<"launched listener"<<endl;
+}
+
+void X11InputBackend::OnButtonPressed(int32_t x,int32_t y)
+{
+    clog<<"click"<<endl;
 }
 
 X11Factory::X11Factory()

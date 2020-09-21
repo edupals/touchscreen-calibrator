@@ -28,3 +28,8 @@ X11InputDevice::X11InputDevice(XID id, QString name)
 X11InputDevice::~X11InputDevice()
 {
 }
+
+XID X11InputDevice::xid()
+{
+    return m_id;
+}

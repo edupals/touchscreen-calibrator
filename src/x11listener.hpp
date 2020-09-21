@@ -23,19 +23,26 @@
 #include <QThread>
 #include <QWindow>
 
+#include "x11device.hpp"
+
 class X11Listener : public QThread
 {
     Q_OBJECT
     
     private:
     
-    WId target;
+    WId targetWindow;
+    X11InputDevice* targetDevice;
     
     public:
     
-    X11Listener(WId id);
+    X11Listener(WId window,InputDevice* device);
     
     void run() override;
+    
+    signals:
+    
+    void buttonPressed(int32_t x,int32_t y);
 };
 
 #endif

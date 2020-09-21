@@ -38,6 +38,7 @@ class X11InputDevice: public InputDevice
     X11InputDevice(XID id, QString name);
     virtual ~X11InputDevice();
     
+    XID xid();
 };
 
 #endif

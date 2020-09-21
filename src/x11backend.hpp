@@ -22,6 +22,7 @@
 
 #include "inputbackend.hpp"
 #include "x11device.hpp"
+#include "x11listener.hpp"
 
 #include <QList>
 
@@ -30,6 +31,7 @@ class X11InputBackend: public InputBackend
     protected:
         
     QList<X11InputDevice*> m_devices;
+    X11Listener* listener;
     
     public:
     
@@ -39,6 +41,10 @@ class X11InputBackend: public InputBackend
     void update() override;
     QList<InputDevice*> devices() override;
     void listen(QWindow* window,InputDevice* device) override;
+    
+    //public slots:
+    
+    void OnButtonPressed(int32_t x,int32_t y);
 };
 
 class X11Factory: public BackendFactory

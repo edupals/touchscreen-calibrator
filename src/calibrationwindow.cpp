@@ -29,7 +29,7 @@ using namespace std;
 CalibrationWindow::CalibrationWindow(InputBackend* backend) : QQuickView(nullptr)
 {
     
-    proxy = new ProxyBackend(backend);
+    proxy = new ProxyBackend(backend,this);
     connect(proxy,&ProxyBackend::accepted,this,&CalibrationWindow::onAccept);
     connect(proxy,&ProxyBackend::canceled,this,&CalibrationWindow::onCancel);
     

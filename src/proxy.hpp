@@ -24,6 +24,7 @@
 #include "inputdevice.hpp"
 
 #include <QObject>
+#include <QWindow>
 
 class ProxyDevice: public QObject
 {
@@ -63,11 +64,12 @@ class ProxyBackend: public QObject
     protected:
     
     InputBackend* m_backend;
+    QWindow* m_window;
     
     public:
     
     QList<QObject*> m_devices;
-    ProxyBackend(InputBackend* backend);
+    ProxyBackend(InputBackend* backend,QWindow* window);
     
     Q_INVOKABLE void cancel();
     Q_INVOKABLE void accept(quint32 value);
