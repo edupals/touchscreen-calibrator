@@ -38,19 +38,31 @@ void X11Listener::run()
     XEvent event;
     
     XDevice* device = XOpenDevice(display,targetDevice->xid());
-    XEventClass cls;
-    int buttonPress;
-    DeviceButtonPress(device,buttonPress,cls);
-    XSelectExtensionEvent(display,targetWindow,&cls,1);
+    XEventClass cls[2];
+    int buttonPressEvent;
+    int buttonReleaseEvent;
+    
+    DeviceButtonPress(device,buttonPressEvent,cls[0]);
+    DeviceButtonRelease(device,buttonReleaseEvent,cls[1]);
+    
+    XSelectExtensionEvent(display,targetWindow,cls,2);
     
     while (!isFinished()) {
         
         XNextEvent(display,&event);
         
-        if (event.type==buttonPress) {
+        if (event.type==buttonPressEvent) {
             XDeviceButtonPressedEvent* eventPress = reinterpret_cast<XDeviceButtonPressedEvent*> (&event);
             
-            qDebug()<<"coords:"<<eventPress->x<<","<<eventPress->y;
+            qDebug()<<"button down:"<<eventPress->x<<","<<eventPress->y;
+            emit buttonPressed(eventPress->x,eventPress->y);
+        }
+        
+        if (event.type==buttonReleaseEvent) {
+            XDeviceButtonReleasedEvent* eventRelease = reinterpret_cast<XDeviceButtonReleasedEvent*> (&event);
+            
+            qDebug()<<"button up:"<<eventRelease->x<<","<<eventRelease->y;
+            emit buttonReleased(eventRelease->x,eventRelease->y);
         }
     }
 }

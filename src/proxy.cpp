@@ -32,6 +32,9 @@ ProxyBackend::ProxyBackend(InputBackend* backend,QWindow* window)
     
     m_backend=backend;
     m_window=window;
+    
+    connect(m_backend,&InputBackend::buttonPressed,this,&ProxyBackend::buttonPressed);
+    connect(m_backend,&InputBackend::buttonReleased,this,&ProxyBackend::buttonReleased);
 }
 
 void ProxyBackend::cancel()

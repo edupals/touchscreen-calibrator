@@ -27,8 +27,10 @@
 
 class InputDevice;
 
-class InputBackend
+class InputBackend: public QObject
 {
+    Q_OBJECT
+    
     protected:
     
     QString m_name;
@@ -48,7 +50,8 @@ class InputBackend
     
     signals:
     
-    void buttonPressed(int32_t x,int32_t y);
+    void buttonPressed(int x,int y);
+    void buttonReleased(int x,int y);
 };
 
 class BackendFactory

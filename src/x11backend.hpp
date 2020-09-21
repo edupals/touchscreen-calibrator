@@ -42,9 +42,6 @@ class X11InputBackend: public InputBackend
     QList<InputDevice*> devices() override;
     void listen(QWindow* window,InputDevice* device) override;
     
-    //public slots:
-    
-    void OnButtonPressed(int32_t x,int32_t y);
 };
 
 class X11Factory: public BackendFactory

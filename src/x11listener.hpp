@@ -42,7 +42,8 @@ class X11Listener : public QThread
     
     signals:
     
-    void buttonPressed(int32_t x,int32_t y);
+    void buttonPressed(int x,int y);
+    void buttonReleased(int x,int y);
 };
 
 #endif

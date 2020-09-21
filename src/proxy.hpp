@@ -79,6 +79,11 @@ class ProxyBackend: public QObject
     void devicesChanged();
     void canceled();
     void accepted(quint32 id);
+    
+    
+    void buttonPressed(int x,int y);
+    void buttonReleased(int x,int y);
+    
 };
 
 #endif

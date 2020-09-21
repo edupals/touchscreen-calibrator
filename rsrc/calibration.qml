@@ -24,6 +24,13 @@ Canvas
         onAccepted: proxy.accept(proxy.devices[devicesList.currentIndex].id);
         onRejected: proxy.cancel();
         
+        Connections {
+            target: proxy
+            function onButtonPressed(x,y) {
+                console.log("qml pressed "+x+","+y);
+            }
+        }
+        
         ListView {
             //anchors.fill:parent
             height:450
