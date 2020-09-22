@@ -57,7 +57,22 @@ void X11InputDevice::restoreMatrix()
 void X11InputDevice::setMatrix(QMatrix3x3& m)
 {
     m_oldMatrix=getMatrix();
-    //TODO
+    
+    Atom propMatrix;
+    Atom reqType;
+    int format;
+    
+    Display* display = XOpenDisplay(0);
+    
+    propMatrix=XInternAtom (display, "Coordinate Transformation Matrix", False);
+    reqType=XInternAtom (display, "FLOAT", False);
+    
+    XIChangeProperty(display, m_id, 
+        propMatrix, reqType,
+        32, PropModeReplace,
+        (unsigned char*)m.data(), 9);
+    
+    XCloseDisplay(display);
 }
 
 QMatrix3x3 X11InputDevice::getMatrix()

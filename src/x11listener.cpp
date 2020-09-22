@@ -37,9 +37,8 @@ void X11Listener::run()
     Display *display = XOpenDisplay(0);
     XEvent event;
     
-    QMatrix3x3 matrix = targetDevice->getMatrix();
-    
-    qDebug()<<"Matrix:"<<matrix;
+    //force an identity matrix before reading raw coords
+    targetDevice->resetMatrix();
     
     XDevice* device = XOpenDevice(display,targetDevice->xid());
     XEventClass cls[2];
