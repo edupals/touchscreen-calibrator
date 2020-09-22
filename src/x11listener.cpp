@@ -37,6 +37,10 @@ void X11Listener::run()
     Display *display = XOpenDisplay(0);
     XEvent event;
     
+    QMatrix3x3 matrix = targetDevice->getMatrix();
+    
+    qDebug()<<"Matrix:"<<matrix;
+    
     XDevice* device = XOpenDevice(display,targetDevice->xid());
     XEventClass cls[2];
     int buttonPressEvent;

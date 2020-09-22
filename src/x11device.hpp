@@ -32,6 +32,7 @@ class X11InputDevice: public InputDevice
     protected:
     
     XID m_id;
+    QMatrix3x3 m_oldMatrix;
     
     public:
     
@@ -39,6 +40,11 @@ class X11InputDevice: public InputDevice
     virtual ~X11InputDevice();
     
     XID xid();
+    
+    void resetMatrix() override;
+    void restoreMatrix() override;
+    void setMatrix(QMatrix3x3& m) override;
+    QMatrix3x3 getMatrix() override;
 };
 
 #endif
