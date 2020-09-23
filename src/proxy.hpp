@@ -25,6 +25,7 @@
 
 #include <QObject>
 #include <QWindow>
+#include <QList>
 
 class ProxyDevice: public QObject
 {
@@ -73,6 +74,7 @@ class ProxyBackend: public QObject
     
     Q_INVOKABLE void cancel();
     Q_INVOKABLE void accept(quint32 value);
+    Q_INVOKABLE void pushPoints(QList<qreal> points);
     
     signals:
     

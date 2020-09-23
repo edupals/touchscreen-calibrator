@@ -53,3 +53,10 @@ void ProxyBackend::accept(quint32 id)
     
     m_backend->listen(m_window,target);
 }
+
+void ProxyBackend::pushPoints(QList<qreal> points)
+{
+    for (int n=0;n<points.size();n++) {
+        qInfo()<<"point "<<points[n];
+    }
+}

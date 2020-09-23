@@ -8,8 +8,44 @@ Canvas
     anchors.fill: parent
     property variant pointState:[0,0,0,0]
     property variant current: 0
+    property variant points:[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
     //var currentPoint=0
 
+    Connections {
+        target: proxy
+        function onButtonPressed(x,y) {
+            console.log("qml pressed "+x+","+y);
+            timer.start()
+        }
+        
+        function onButtonReleased(x,y) {
+            //console.log("qml released "+x+","+y);
+            timer.stop()
+            
+            var status=calibrationWindow.pointState[calibrationWindow.current];
+            
+            if (status>0 && status<10) {
+                calibrationWindow.pointState[calibrationWindow.current]=0;
+                calibrationWindow.requestPaint();
+            }
+            else {
+                var px = x/calibrationWindow.width;
+                var py = y/calibrationWindow.height;
+                console.log("Using point:"+px+","+py);
+                var n=(current-1)*2;
+                points[n]=px;
+                points[n+1]=py;
+                
+                if (calibrationWindow.current==4) {
+                    console.log("pushing calibration...");
+                    proxy.pushPoints(calibrationWindow.points);
+                    
+                    calibrationWindow.current=0;
+                }
+            }
+        }
+    }
+    
     QQC2.Dialog {
     
         width:500
@@ -23,13 +59,6 @@ Canvas
         //onAccepted: accept(devices[devicesList.currentIndex].id);
         onAccepted: proxy.accept(proxy.devices[devicesList.currentIndex].id);
         onRejected: proxy.cancel();
-        
-        Connections {
-            target: proxy
-            function onButtonPressed(x,y) {
-                console.log("qml pressed "+x+","+y);
-            }
-        }
         
         ListView {
             //anchors.fill:parent
@@ -103,7 +132,7 @@ Canvas
                 
                 var state = pointState[p];
                 
-                if (state==0) {
+                if (current==p && state==0) {
                     ctx.beginPath();
                     ctx.fillStyle = "#bdc3c7";
                     ctx.arc(x,y,10,0,2*3.1416,false);
@@ -144,13 +173,13 @@ Canvas
             }
             else {
                 running=false;
-                calibrationWindow.current=(calibrationWindow.current+1)%4;
+                calibrationWindow.current=calibrationWindow.current+1;
             }
             
             calibrationWindow.requestPaint();
         }
     }
-    
+    /*
     MouseArea {
         anchors.fill: parent
         
@@ -168,5 +197,6 @@ Canvas
             }
         }
     }
+    */
 
 }
