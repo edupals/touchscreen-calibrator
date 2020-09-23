@@ -128,3 +128,82 @@ QMatrix3x3 X11InputDevice::getMatrix()
     
     return matrix;
 }
+
+void X11InputDevice::calibrate(QList<qreal>& points)
+{
+    if (points.size()<8) {
+        throw runtime_error("No enough calibration points");
+    }
+    
+    float m[9];
+    
+    float x0=points[0];
+    float x1=points[2];
+    float x2=points[6];
+    float x3=points[4];
+    
+    float y0=points[1];
+    float y1=points[3];
+    float y2=points[7];
+    float y3=points[5];
+    
+    float dx1 = x1 - x2, dy1 = y1 - y2;
+    float dx2 = x3 - x2, dy2 = y3 - y2;
+    float sx = x0 - x1 + x2 - x3;
+    float sy = y0 - y1 + y2 - y3;
+    float g = (sx * dy2 - dx2 * sy) / (dx1 * dy2 - dx2 * dy1);
+    float h = (dx1 * sy - sx * dy1) / (dx1 * dy2 - dx2 * dy1);
+    
+    float A0 = 0.1 * x0 * g;
+    float A1 = 0.1 * x0 * h;
+    float A2 = 0.1 * y0 * g;
+    float A3 = 0.1 * y0 * h;
+    
+    float A4 = 0.9 * x1 * g;
+    float A5 = 0.1 * x1 * h;
+    float A6 = 0.9 * y1 * g;
+    float A7 = 0.1 * y1 * h;
+    
+    float A12 = 0.1 * x3 * g;
+    float A13 = 0.9 * x3 * h;
+    float A14 = 0.1 * y3 * g;
+    float A15 = 0.9 * y3 * h;
+    
+    float a = (x1-x0-A0-A1+A4+A5)/0.8;
+    float d = (y1-y0-A2-A3+A6+A7)/0.8;
+    float b = (x3-x0-A0-A1+A12+A13)/0.8;
+    float e = (y3-y0-A2-A3+A14+A15)/0.8;
+    float c = -0.1*a-0.9*b+x3+A12+A13;
+    float f = -0.1*d -0.9*e+y3+A14+A15;
+    
+    float A =     e - f * h;
+    float B = c * h - b;
+    float C = b * f - c * e;
+    float D = f * g - d;
+    float E =     a - c * g;
+    float F = c * d - a * f;
+    float G = d * h - e * g;
+    float H = b * g - a * h;
+    float I = a * e - b * d;
+    
+    m[0]=A;
+    m[1]=B;
+    m[2]=C;
+    
+    m[3]=D;
+    m[4]=E;
+    m[5]=F;
+    
+    m[6]=G;
+    m[7]=H;
+    m[8]=I;
+    
+    QMatrix3x3 matrix(m);
+    
+    setMatrix(matrix);
+    //qInfo()<<matrix;
+    
+    for (int n=0;n<9;n++) {
+        qInfo()<<" "<<m[n];
+    }
+}

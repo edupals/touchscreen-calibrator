@@ -22,6 +22,7 @@
 
 #include <QString>
 #include <QGenericMatrix>
+#include <QList>
 
 class InputDevice
 {
@@ -41,6 +42,7 @@ class InputDevice
     virtual void restoreMatrix() = 0;
     virtual void setMatrix(QMatrix3x3& m) = 0;
     virtual QMatrix3x3 getMatrix() = 0;
+    virtual void calibrate(QList<qreal>& points) = 0;
 };
 
 #endif

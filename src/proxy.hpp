@@ -66,6 +66,7 @@ class ProxyBackend: public QObject
     
     InputBackend* m_backend;
     QWindow* m_window;
+    quint32 m_id;
     
     public:
     

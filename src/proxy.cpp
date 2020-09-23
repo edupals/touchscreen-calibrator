@@ -46,6 +46,8 @@ void ProxyBackend::accept(quint32 id)
 {
     emit accepted(id);
     
+    m_id=id;
+    
     //ToDo: safe this a little
     InputDevice* target=m_backend->devices()[id];
     
@@ -59,4 +61,7 @@ void ProxyBackend::pushPoints(QList<qreal> points)
     for (int n=0;n<points.size();n++) {
         qInfo()<<"point "<<points[n];
     }
+    
+    InputDevice* target=m_backend->devices()[m_id];
+    target->calibrate(points);
 }

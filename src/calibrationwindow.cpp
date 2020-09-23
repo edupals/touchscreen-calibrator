@@ -36,8 +36,8 @@ CalibrationWindow::CalibrationWindow(InputBackend* backend) : QQuickView(nullptr
     rootContext()->setContextProperty("proxy",proxy);
     setSource(QUrl(QStringLiteral("qrc:/calibration.qml")));
     
-    //showFullScreen();
-    show();
+    showFullScreen();
+    //show();
 }
 
 void CalibrationWindow::onCancel()
