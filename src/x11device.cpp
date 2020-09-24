@@ -19,6 +19,8 @@
 
 #include "x11device.hpp"
 
+#include <QTransform>
+
 #include <X11/Xatom.h>
 #include <X11/extensions/XInput2.h>
 
@@ -135,6 +137,11 @@ void X11InputDevice::calibrate(QList<qreal>& points)
         throw runtime_error("No enough calibration points");
     }
     
+    QPolygonF source;
+    QPolygonF dest;
+    
+    source<<QPointF(0.1f,0.1f)<<QPointF(0.9f,0.1f)<<QPointF(0.9f,0.9f)<<QPointF(0.1f,0.9f);
+    
     float m[9];
     
     float x0=points[0];
@@ -146,6 +153,8 @@ void X11InputDevice::calibrate(QList<qreal>& points)
     float y1=points[3];
     float y2=points[7];
     float y3=points[5];
+    
+    dest<<QPointF(x0,y0)<<QPointF(x1,y1)<<QPointF(x2,y2)<<QPointF(x3,y3);
     
     float dx1 = x1 - x2, dy1 = y1 - y2;
     float dx2 = x3 - x2, dy2 = y3 - y2;
@@ -187,16 +196,31 @@ void X11InputDevice::calibrate(QList<qreal>& points)
     float I = a * e - b * d;
     
     m[0]=A;
-    m[1]=B;
-    m[2]=C;
+    m[1]=D;
+    m[2]=G;
     
-    m[3]=D;
+    m[3]=B;
     m[4]=E;
-    m[5]=F;
+    m[5]=H;
     
-    m[6]=G;
-    m[7]=H;
+    m[6]=C;
+    m[7]=F;
     m[8]=I;
+    
+    QTransform quad;
+    QTransform::quadToQuad(dest,source,quad);
+    
+    m[0]=quad.m11();
+    m[1]=quad.m12();
+    m[2]=quad.m13();
+    
+    m[3]=quad.m21();
+    m[4]=quad.m22();
+    m[5]=quad.m23();
+    
+    m[6]=quad.m31();
+    m[7]=quad.m32();
+    m[8]=quad.m33();
     
     QMatrix3x3 matrix(m);
     
@@ -206,4 +230,7 @@ void X11InputDevice::calibrate(QList<qreal>& points)
     for (int n=0;n<9;n++) {
         qInfo()<<" "<<m[n];
     }
+    
+    
+    qInfo()<<quad;
 }

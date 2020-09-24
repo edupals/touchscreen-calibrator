@@ -58,6 +58,7 @@ void X11Listener::run()
             XDeviceButtonPressedEvent* eventPress = reinterpret_cast<XDeviceButtonPressedEvent*> (&event);
             
             qDebug()<<"button down:"<<eventPress->x<<","<<eventPress->y;
+            qDebug()<<eventPress->axis_data[0]<<","<<eventPress->axis_data[1];
             emit buttonPressed(eventPress->x,eventPress->y);
         }
         
