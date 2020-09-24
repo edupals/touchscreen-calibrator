@@ -57,15 +57,15 @@ void X11Listener::run()
         if (event.type==buttonPressEvent) {
             XDeviceButtonPressedEvent* eventPress = reinterpret_cast<XDeviceButtonPressedEvent*> (&event);
             
-            qDebug()<<"button down:"<<eventPress->x<<","<<eventPress->y;
-            qDebug()<<eventPress->axis_data[0]<<","<<eventPress->axis_data[1];
+            //qDebug()<<"button down:"<<eventPress->x<<","<<eventPress->y;
+            //qDebug()<<eventPress->axis_data[0]<<","<<eventPress->axis_data[1];
             emit buttonPressed(eventPress->x,eventPress->y);
         }
         
         if (event.type==buttonReleaseEvent) {
             XDeviceButtonReleasedEvent* eventRelease = reinterpret_cast<XDeviceButtonReleasedEvent*> (&event);
             
-            qDebug()<<"button up:"<<eventRelease->x<<","<<eventRelease->y;
+            //qDebug()<<"button up:"<<eventRelease->x<<","<<eventRelease->y;
             emit buttonReleased(eventRelease->x,eventRelease->y);
         }
     }

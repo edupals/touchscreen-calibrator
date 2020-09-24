@@ -14,7 +14,7 @@ Canvas
     Connections {
         target: proxy
         function onButtonPressed(x,y) {
-            console.log("qml pressed "+x+","+y);
+            //console.log("qml pressed "+x+","+y);
             timer.start()
         }
         
@@ -47,7 +47,7 @@ Canvas
     }
     
     QQC2.Dialog {
-    
+        id: dlgSelection
         width:500
         height:500
         anchors.centerIn: parent
@@ -179,24 +179,4 @@ Canvas
             calibrationWindow.requestPaint();
         }
     }
-    /*
-    MouseArea {
-        anchors.fill: parent
-        
-        onPressed: {
-            timer.start()
-        }
-        
-        onReleased: {
-            timer.stop()
-            
-            var status=calibrationWindow.pointState[calibrationWindow.current];
-            
-            if (status>0 && status<10) {
-                calibrationWindow.pointState[calibrationWindow.current]=0;
-            }
-        }
-    }
-    */
-
 }

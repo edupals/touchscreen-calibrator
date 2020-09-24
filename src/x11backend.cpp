@@ -75,12 +75,11 @@ void X11InputBackend::update()
                         cout<<"            "<<XGetAtomName(dpy,props[i])<<endl;
                     }
                     */
+                    
+                    X11InputDevice* x11device = new X11InputDevice(devices[n].id,devices[n].name);
+                    m_devices.push_back(x11device);
                 }
                 
-                //hack
-                X11InputDevice* x11device = new X11InputDevice(devices[n].id,devices[n].name);
-                
-                m_devices.push_back(x11device);
             }
             
             p=(XAnyClassPtr)((char*)p+p->length);
