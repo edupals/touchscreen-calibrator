@@ -18,7 +18,6 @@
 */
 
 #include "calibrationwindow.hpp"
-#include "selectionwindow.hpp"
 #include "x11listener.hpp"
 #include "inputbackend.hpp"
 #include "inputdevice.hpp"
@@ -52,17 +51,8 @@ int main(int argc,char* argv[])
         qDebug()<<"-"<<device->name();
     }
     
-    //SelectionWindow* swindow = new SelectionWindow(backend);
-    //swindow->exec();
-    
     CalibrationWindow* cw=new CalibrationWindow(backend);
-    //X11Listener listener(cw->winId());
-    //listener.start();
-    
     app.exec();
-    
-    //listener.terminate();
-    //listener.wait();
     
     return 0;
 }

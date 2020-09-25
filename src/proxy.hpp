@@ -77,6 +77,9 @@ class ProxyBackend: public QObject
     Q_INVOKABLE void accept(quint32 value);
     Q_INVOKABLE void pushPoints(QList<qreal> points);
     
+    Q_INVOKABLE void restoreCalibration();
+    Q_INVOKABLE void saveCalibration();
+    
     signals:
     
     void devicesChanged();

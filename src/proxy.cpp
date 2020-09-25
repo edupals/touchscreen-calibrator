@@ -20,6 +20,8 @@
 #include "proxy.hpp"
 
 #include <QDebug>
+#include <QDir>
+#include <QFile>
 
 ProxyBackend::ProxyBackend(InputBackend* backend,QWindow* window)
 {
@@ -48,7 +50,7 @@ void ProxyBackend::accept(quint32 id)
     
     m_id=id;
     
-    //ToDo: safe this a little
+    //ToDo: safe this a bit
     InputDevice* target=m_backend->devices()[id];
     
     qInfo()<<"Listening events for:"<<target->name();
@@ -64,4 +66,21 @@ void ProxyBackend::pushPoints(QList<qreal> points)
     
     InputDevice* target=m_backend->devices()[m_id];
     target->calibrate(points);
+}
+
+void ProxyBackend::restoreCalibration()
+{
+    InputDevice* target=m_backend->devices()[m_id];
+    target->restoreMatrix();
+}
+
+void ProxyBackend::saveCalibration()
+{
+    QDir cfgdir = QDir::homePath()+"/.config/touchscreen-calibrator/";
+    
+    if (!cfgdir.exists()) {
+        QDir.home().mkpath("/.config/touchscreen-calibrator/");
+    }
+    
+    InputDevice* target=m_backend->devices()[m_id];
 }

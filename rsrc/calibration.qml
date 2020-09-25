@@ -41,9 +41,25 @@ Canvas
                     proxy.pushPoints(calibrationWindow.points);
                     
                     calibrationWindow.current=0;
+                    
+                    dlgResult.visible=true;
                 }
             }
         }
+    }
+    
+    QQC2.Dialog {
+        id: dlgResult
+        width:500
+        height:500
+        anchors.centerIn: parent
+        modal: true
+        visible:false
+        title: "Calibration completed"
+        standardButtons: QQC2.Dialog.Ok | QQC2.Dialog.Cancel
+        
+        onAccepted: proxy.cancel();
+        onRejected: proxy.cancel();
     }
     
     QQC2.Dialog {

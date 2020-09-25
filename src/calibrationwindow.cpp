@@ -22,10 +22,6 @@
 #include <QStringListModel>
 #include <QQmlContext>
 
-#include <iostream>
-
-using namespace std;
-
 CalibrationWindow::CalibrationWindow(InputBackend* backend) : QQuickView(nullptr)
 {
     
@@ -42,11 +38,10 @@ CalibrationWindow::CalibrationWindow(InputBackend* backend) : QQuickView(nullptr
 
 void CalibrationWindow::onCancel()
 {
-    clog<<"cancel"<<endl;
     close();
 }
 
 void CalibrationWindow::onAccept(quint32 id)
 {
-    clog<<"accept "<<id<<endl;
+
 }
