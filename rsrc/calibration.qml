@@ -58,8 +58,14 @@ Canvas
         title: "Calibration completed"
         standardButtons: QQC2.Dialog.Ok | QQC2.Dialog.Cancel
         
-        onAccepted: proxy.cancel();
-        onRejected: proxy.cancel();
+        onAccepted: {
+            proxy.saveCalibration();
+            proxy.cancel();
+        }
+        onRejected: {
+            proxy.restoreCalibration();
+            proxy.cancel();
+        }
     }
     
     QQC2.Dialog {

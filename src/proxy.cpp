@@ -77,9 +77,13 @@ void ProxyBackend::restoreCalibration()
 void ProxyBackend::saveCalibration()
 {
     QDir cfgdir = QDir::homePath()+"/.config/touchscreen-calibrator/";
+    qDebug()<<"saving calibration...";
     
     if (!cfgdir.exists()) {
-        QDir.home().mkpath("/.config/touchscreen-calibrator/");
+        qDebug()<<"creating path...";
+        if(!QDir::home().mkpath(".config/touchscreen-calibrator/")) {
+            qDebug()<<"Error";
+        }
     }
     
     InputDevice* target=m_backend->devices()[m_id];
