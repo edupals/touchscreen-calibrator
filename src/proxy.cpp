@@ -22,6 +22,9 @@
 #include <QDebug>
 #include <QDir>
 #include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 ProxyBackend::ProxyBackend(InputBackend* backend,QWindow* window)
 {
@@ -83,8 +86,44 @@ void ProxyBackend::saveCalibration()
         qDebug()<<"creating path...";
         if(!QDir::home().mkpath(".config/touchscreen-calibrator/")) {
             qDebug()<<"Error";
+            return;
         }
     }
     
+    QFile cfg(cfgdir.path()+"/calibration.cfg");
+    
+    cfg.open(QIODevice::ReadWrite);
+    QByteArray raw = cfg.readAll();
+    cfg.close();
+
+    QJsonDocument json=QJsonDocument::fromJson(raw);
+    QJsonObject obj=json.object();
+    //qDebug()<<obj;
+    
     InputDevice* target=m_backend->devices()[m_id];
+    
+    QJsonArray aMatrix;
+    QMatrix3x3 matrix = target->getMatrix();
+    for (int n=0;n<9;n++) {
+        aMatrix.append(matrix.data()[n]);
+    }
+    
+    QJsonObject backend=obj[m_backend->name()].toObject();
+    
+    backend.insert(target->name(),aMatrix);
+    qDebug()<<backend;
+    //QJsonObject deviceMatrix {{target->name(),aMatrix}};
+    //obj.insert(m_backend->name(),deviceMatrix);
+    
+    obj.insert(m_backend->name(),backend);
+    json.setObject(obj);
+    
+    cfg.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    cfg.write(json.toJson());
+    cfg.close();
+    
+    
+    
+    
+    
 }
