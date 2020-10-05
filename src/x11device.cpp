@@ -131,7 +131,7 @@ void X11InputDevice::calibrate(QList<qreal>& points)
     QPolygonF dest;
     
     source<<QPointF(0.1,0.1)<<QPointF(0.9,0.1)<<QPointF(0.9,0.9)<<QPointF(0.1,0.9);
-    dest<<QPointF(points[0],points[1])<<QPointF(points[2],points[3])<<QPointF(points[6],points[7])<<QPointF(points[4],points[5]);
+    dest<<QPointF(points[0],points[1])<<QPointF(points[2],points[3])<<QPointF(points[4],points[5])<<QPointF(points[6],points[7]);
     
     QTransform quad;
     QTransform::quadToQuad(dest,source,quad);

@@ -66,6 +66,36 @@ Canvas
             proxy.restoreCalibration();
             proxy.cancel();
         }
+        
+        Canvas {
+            width: 400
+            height: 400
+            anchors.centerIn: parent
+            
+            onPaint: {
+                var ctx = getContext("2d");
+                
+                ctx.strokeStyle = "#ff0000";
+                ctx.beginPath();
+                ctx.moveTo(width*0.1,height*0.1);
+                ctx.lineTo(width*0.9,height*0.1);
+                ctx.lineTo(width*0.9,height*0.9);
+                ctx.lineTo(width*0.1,height*0.9);
+                ctx.lineTo(width*0.1,height*0.1);
+                ctx.stroke();
+                
+                ctx.strokeStyle = "#0000ff";
+                ctx.beginPath();
+                ctx.moveTo(width*points[0],height*points[1]);
+                ctx.lineTo(width*points[2],height*points[3]);
+                ctx.lineTo(width*points[4],height*points[5]);
+                ctx.lineTo(width*points[6],height*points[7]);
+                ctx.lineTo(width*points[0],height*points[1]);
+                ctx.stroke();
+                
+            }
+            
+        }
     }
     
     QQC2.Dialog {
@@ -144,39 +174,39 @@ Canvas
             ctx.stroke();
         }
         
+        var refpoints = [0.1,0.1, 0.9,0.1, 0.9,0.9, 0.1,0.9];
         
-        for (var i=0;i<2;i++) {
-            for (var j=0;j<2;j++) {
-                
-                var p = i+j*2;
-                var x = (0.1*width) + (i*0.8*width);
-                var y = (0.1*height) + (j*0.8*height);
-                
-                var state = pointState[p];
-                
-                if (current==p && state==0) {
-                    ctx.beginPath();
-                    ctx.fillStyle = "#bdc3c7";
-                    ctx.arc(x,y,10,0,2*3.1416,false);
-                    ctx.fill();
-                }
-                
-                if (state>0 && state<10) {
-                    ctx.beginPath();
-                    ctx.fillStyle = "#da4453";
-                    ctx.arc(x,y,10,0,(state/10.0)*2*3.1416,false);
-                    ctx.lineTo(x,y);
-                    ctx.lineTo(x+5,y);
-                    ctx.fill();
-                }
-                
-                if (state==10) {
-                    ctx.beginPath();
-                    ctx.fillStyle = "#3498db";
-                    ctx.arc(x,y,10,0,2*3.1416,false);
-                    ctx.fill();
-                }
+        for (var n=0;n<8;n+=2) {
+            
+            var p = n/2;
+            var x = refpoints[n]*width;
+            var y = refpoints[n+1]*height;
+            
+            var state = pointState[p];
+            
+            if (current==p && state==0) {
+                ctx.beginPath();
+                ctx.fillStyle = "#bdc3c7";
+                ctx.arc(x,y,10,0,2*3.1416,false);
+                ctx.fill();
             }
+            
+            if (state>0 && state<10) {
+                ctx.beginPath();
+                ctx.fillStyle = "#da4453";
+                ctx.arc(x,y,10,0,(state/10.0)*2*3.1416,false);
+                ctx.lineTo(x,y);
+                ctx.lineTo(x+5,y);
+                ctx.fill();
+            }
+            
+            if (state==10) {
+                ctx.beginPath();
+                ctx.fillStyle = "#3498db";
+                ctx.arc(x,y,10,0,2*3.1416,false);
+                ctx.fill();
+            }
+            
         }
         
     }
