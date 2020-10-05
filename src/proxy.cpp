@@ -56,7 +56,7 @@ void ProxyBackend::accept(quint32 id)
     //ToDo: safe this a bit
     InputDevice* target=m_backend->devices()[id];
     
-    qInfo()<<"Listening events for:"<<target->name();
+    qDebug()<<"Listening events for:"<<target->name();
     
     m_backend->listen(m_window,target);
 }
@@ -122,8 +122,50 @@ void ProxyBackend::saveCalibration()
     cfg.write(json.toJson());
     cfg.close();
     
+}
+
+void ProxyBackend::loadCalibration(quint32 id)
+{
+    qDebug()<<"loading calibration...";
     
+    QFile cfg(QDir::homePath()+"/.config/touchscreen-calibrator/calibration.cfg");
     
+    if (!cfg.exists()) {
+        qDebug()<<"no calibration file";
+        return;
+    }
     
+    InputDevice* target=m_backend->devices()[id];
     
+    cfg.open(QIODevice::ReadWrite);
+    QByteArray raw = cfg.readAll();
+    cfg.close();
+
+    QJsonDocument json=QJsonDocument::fromJson(raw);
+    QJsonObject obj=json.object();
+    
+    QJsonValue backend=obj[m_backend->name()];
+    
+    if (!backend.isObject()) {
+        return;
+    }
+    
+    QJsonValue device=backend.toObject()[target->name()];
+    if (!device.isArray()) {
+        qDebug()<<"oh no!";
+    }
+    
+    float m[9];
+    
+    QJsonArray array = device.toArray();
+    
+    for (int n=0;n<9;n++) {
+        m[n]=array[n].toDouble();
+    }
+    
+    QMatrix3x3 matrix(m);
+    
+    qDebug()<<matrix;
+    
+    target->setMatrix(matrix);
 }

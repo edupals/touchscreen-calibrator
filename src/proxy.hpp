@@ -79,6 +79,7 @@ class ProxyBackend: public QObject
     
     Q_INVOKABLE void restoreCalibration();
     Q_INVOKABLE void saveCalibration();
+    Q_INVOKABLE void loadCalibration(quint32 id);
     
     signals:
     
