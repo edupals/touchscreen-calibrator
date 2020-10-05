@@ -69,7 +69,7 @@ Canvas
         
         Canvas {
             width: 400
-            height: 400
+            height: 400*(calibrationWindow.height/calibrationWindow.width)
             anchors.centerIn: parent
             
             onPaint: {
