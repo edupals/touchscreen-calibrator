@@ -48,6 +48,9 @@ class InputBackend: public QObject
     virtual QList<InputDevice*> devices()=0;
     virtual void listen(QWindow* window,InputDevice* device)=0;
     
+    void loadCalibration(InputDevice* device);
+    void saveCalibration(InputDevice* device);
+    
     signals:
     
     void buttonPressed(int x,int y);
