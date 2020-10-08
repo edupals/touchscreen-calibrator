@@ -24,6 +24,7 @@
 
 #include <QApplication>
 #include <QString>
+#include <QCommandLineParser>
 #include <X11/extensions/XInput.h>
 
 #include <iostream>
@@ -35,6 +36,16 @@ int main(int argc,char* argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc,argv);
+    QApplication::setApplicationName("Touchscreen calibrator");
+    QApplication::setApplicationVersion("1.0");
+    
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Touchscreen calibration tools");
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.addPositionalArgument("mode", "gui,server");
+    
+    parser.process(app);
     
     map<QString,BackendFactory*> backends = BackendFactory::factories();
     
@@ -51,8 +62,19 @@ int main(int argc,char* argv[])
         qDebug()<<"-"<<device->name();
     }
     
-    CalibrationWindow* cw=new CalibrationWindow(backend);
-    app.exec();
+    const QStringList args = parser.positionalArguments();
+    if (args.size()<2) {
+        parser.showHelp(0);
+    }
+    
+    const QString mode = args[0];
+    
+    if (mode=="gui") {
+        CalibrationWindow* cw=new CalibrationWindow(backend);
+        return app.exec();
+    }
+    
+    parser.showHelp(0);
     
     return 0;
 }
