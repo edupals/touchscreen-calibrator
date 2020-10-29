@@ -27,9 +27,16 @@
 
 X11Listener::X11Listener(WId window,InputDevice* device)
 {
+    this->mode=X11ListenerMode::Input;
+    
     this->targetWindow=window;
     this->targetDevice=static_cast<X11InputDevice*>(device);
     
+}
+
+X11Listener::X11Listener()
+{
+    this->mode=X11ListenerMode::Presence;
 }
 
 void X11Listener::run()

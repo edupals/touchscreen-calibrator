@@ -21,6 +21,7 @@
 #include "x11listener.hpp"
 #include "inputbackend.hpp"
 #include "inputdevice.hpp"
+#include "server.hpp"
 
 #include <QApplication>
 #include <QString>
@@ -63,7 +64,7 @@ int main(int argc,char* argv[])
     }
     
     const QStringList args = parser.positionalArguments();
-    if (args.size()<2) {
+    if (args.size()<1) {
         parser.showHelp(0);
     }
     
@@ -73,6 +74,16 @@ int main(int argc,char* argv[])
         CalibrationWindow* cw=new CalibrationWindow(backend);
         return app.exec();
     }
+    else {
+        if (mode=="server") {
+            Server* server=new Server(backend);
+            return app.exec();
+        }
+        else {
+            parser.showHelp(0);
+        }
+    }
+    
     
     parser.showHelp(0);
     

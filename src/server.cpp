@@ -1,7 +1,7 @@
 /*
     touchscreen-calibrator
 
-    Copyright (C) 2019  Enrique Medina Gremaldos <quiqueiii@gmail.com>
+    Copyright (C) 2020  Enrique Medina Gremaldos <quiqueiii@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,42 +17,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TSC_X11_LISTENER
-#define TSC_X11_LISTENER
+#include "server.hpp"
 
-#include <QThread>
-#include <QWindow>
+#include <QDebug>
 
-#include "x11device.hpp"
-
-enum class X11ListenerMode
+Server::Server(InputBackend* backend) : m_backend(backend)
 {
-    Input,
-    Presence
-};
-
-class X11Listener : public QThread
-{
-    Q_OBJECT
+    qInfo()<<"Found input devices:";
     
-    private:
-    
-    X11ListenerMode mode;
-    
-    WId targetWindow;
-    X11InputDevice* targetDevice;
-    
-    public:
-    
-    X11Listener(WId window,InputDevice* device);
-    X11Listener();
-    
-    void run() override;
-    
-    signals:
-    
-    void buttonPressed(int x,int y);
-    void buttonReleased(int x,int y);
-};
-
-#endif
+    for (InputDevice* device : backend->devices()) {
+        qInfo()<<"--"<<device->name();
+    }
+}
