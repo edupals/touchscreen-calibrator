@@ -1,0 +1,13 @@
+Source: touchscreen-calibrator
+Section: utils
+Priority: optional
+Maintainer: Enrique Medina Gremaldos <quiqueiii@gmail.com>
+Build-Depends: debhelper (>=9), zero-dev, llxsrchelper, cmake, qtbase5-dev, extra-cmake-modules, libx11-dev, libxi-dev
+Standards-Version: 3.9.7
+Homepage: https://github.com/edupals/touchscreen-calibrator
+
+Package: touchscreen-calibrator
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Touchscreen calibration tool
+ This tool allows to calibrate absolute pointing devices
