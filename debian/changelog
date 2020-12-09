@@ -1,3 +1,10 @@
+touchscreen-calibrator (0.9.1.0) bionic; urgency=medium
+
+  * Master tag: 8e026ae48a7c85eefd1efb0643ea130e74c030fa
+  * Added a experimental device presence listener
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Thu, 10 Dec 2020 00:32:03 +0100
+
 touchscreen-calibrator (0.9.0.0) bionic; urgency=medium
 
   * Initial release.
