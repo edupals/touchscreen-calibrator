@@ -35,6 +35,10 @@ class Server: public QObject
     public:
     
     Server(InputBackend* backend);
+    
+    public slots:
+    
+    void OnDevicesChanged();
 };
 
 #endif

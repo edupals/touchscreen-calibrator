@@ -41,6 +41,7 @@ class X11InputBackend: public InputBackend
     void update() override;
     QList<InputDevice*> devices() override;
     void listen(QWindow* window,InputDevice* device) override;
+    void listen() override;
     
 };
 

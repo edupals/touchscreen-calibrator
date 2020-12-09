@@ -28,4 +28,20 @@ Server::Server(InputBackend* backend) : m_backend(backend)
     for (InputDevice* device : backend->devices()) {
         qInfo()<<"--"<<device->name();
     }
+    
+    qInfo()<<"server mode";
+    
+    connect(m_backend,&InputBackend::devicesChanged,this,&Server::OnDevicesChanged);
+    m_backend->listen();
+}
+
+void Server::OnDevicesChanged()
+{
+    m_backend->update();
+    
+    qInfo()<<"Found input devices:";
+    
+    for (InputDevice* device : m_backend->devices()) {
+        qInfo()<<"--"<<device->name();
+    }
 }
