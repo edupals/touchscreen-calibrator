@@ -44,36 +44,66 @@ void X11Listener::run()
     Display *display = XOpenDisplay(0);
     XEvent event;
     
-    //force an identity matrix before reading raw coords
-    targetDevice->resetMatrix();
-    
-    XDevice* device = XOpenDevice(display,targetDevice->xid());
-    XEventClass cls[2];
-    int buttonPressEvent;
-    int buttonReleaseEvent;
-    
-    DeviceButtonPress(device,buttonPressEvent,cls[0]);
-    DeviceButtonRelease(device,buttonReleaseEvent,cls[1]);
-    
-    XSelectExtensionEvent(display,targetWindow,cls,2);
-    
-    while (!isFinished()) {
+    if (mode==X11ListenerMode::Input) {
+        //force an identity matrix before reading raw coords
+        targetDevice->resetMatrix();
         
-        XNextEvent(display,&event);
+        XDevice* device = XOpenDevice(display,targetDevice->xid());
+        XEventClass cls[2];
+        int buttonPressEvent;
+        int buttonReleaseEvent;
         
-        if (event.type==buttonPressEvent) {
-            XDeviceButtonPressedEvent* eventPress = reinterpret_cast<XDeviceButtonPressedEvent*> (&event);
+        DeviceButtonPress(device,buttonPressEvent,cls[0]);
+        DeviceButtonRelease(device,buttonReleaseEvent,cls[1]);
+        
+        XSelectExtensionEvent(display,targetWindow,cls,2);
+        
+        while (!isFinished()) {
             
-            //qDebug()<<"button down:"<<eventPress->x<<","<<eventPress->y;
-            //qDebug()<<eventPress->axis_data[0]<<","<<eventPress->axis_data[1];
-            emit buttonPressed(eventPress->x,eventPress->y);
+            XNextEvent(display,&event);
+            
+            if (event.type==buttonPressEvent) {
+                XDeviceButtonPressedEvent* eventPress = reinterpret_cast<XDeviceButtonPressedEvent*> (&event);
+                
+                //qDebug()<<"button down:"<<eventPress->x<<","<<eventPress->y;
+                //qDebug()<<eventPress->axis_data[0]<<","<<eventPress->axis_data[1];
+                emit buttonPressed(eventPress->x,eventPress->y);
+            }
+            
+            if (event.type==buttonReleaseEvent) {
+                XDeviceButtonReleasedEvent* eventRelease = reinterpret_cast<XDeviceButtonReleasedEvent*> (&event);
+                
+                //qDebug()<<"button up:"<<eventRelease->x<<","<<eventRelease->y;
+                emit buttonReleased(eventRelease->x,eventRelease->y);
+            }
         }
+    }
+    
+    if (mode==X11ListenerMode::Presence) {
         
-        if (event.type==buttonReleaseEvent) {
-            XDeviceButtonReleasedEvent* eventRelease = reinterpret_cast<XDeviceButtonReleasedEvent*> (&event);
+        XEventClass cls[1];
+        int devicePresenceEvent;
+        
+        DevicePresence(display,devicePresenceEvent,cls[0]);
+        
+        XSelectExtensionEvent(display,DefaultRootWindow(display),cls,1);
+        
+        qDebug()<<"listening devices...";
+        
+        while (!isFinished()) {
+            XNextEvent(display,&event);
             
-            //qDebug()<<"button up:"<<eventRelease->x<<","<<eventRelease->y;
-            emit buttonReleased(eventRelease->x,eventRelease->y);
+            if (event.type==devicePresenceEvent) {
+                
+                XDevicePresenceNotifyEvent* eventPresence = reinterpret_cast<XDevicePresenceNotifyEvent*> (&event);
+                /*
+                qDebug()<<"device list changed!";
+                qDebug()<<"type:"<<eventPresence->type;
+                qDebug()<<"xid:"<<eventPresence->deviceid;
+                qDebug()<<"devchange:"<<eventPresence->devchange;
+                */
+                emit devicesChanged();
+            }
         }
     }
 }

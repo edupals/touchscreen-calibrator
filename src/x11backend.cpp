@@ -110,6 +110,14 @@ void X11InputBackend::listen(QWindow* window,InputDevice* device)
     clog<<"launched listener"<<endl;
 }
 
+void X11InputBackend::listen()
+{
+    listener = new X11Listener();
+    connect(listener,&X11Listener::devicesChanged,this,&InputBackend::devicesChanged);
+    
+    listener->start();
+}
+
 X11Factory::X11Factory()
 {
     BackendFactory::m_factories[TSC_X11_BACKEND_NAME]=this;

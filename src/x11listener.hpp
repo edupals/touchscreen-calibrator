@@ -53,6 +53,7 @@ class X11Listener : public QThread
     
     void buttonPressed(int x,int y);
     void buttonReleased(int x,int y);
+    void devicesChanged();
 };
 
 #endif
