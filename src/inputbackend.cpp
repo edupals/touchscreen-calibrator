@@ -49,7 +49,7 @@ QString InputBackend::name() const
     return m_name;
 }
 
-void InputBackend::loadCalibration(InputDevice* device)
+bool InputBackend::loadCalibration(InputDevice* device)
 {
     qDebug()<<"loading calibration...";
     
@@ -57,7 +57,7 @@ void InputBackend::loadCalibration(InputDevice* device)
     
     if (!cfg.exists()) {
         qDebug()<<"no calibration file";
-        return;
+        return false;
     }
     
     cfg.open(QIODevice::ReadWrite);
@@ -70,7 +70,7 @@ void InputBackend::loadCalibration(InputDevice* device)
     QJsonValue vBackend=obj[m_name];
     
     if (!vBackend.isObject()) {
-        return;
+        return false;
     }
     
     QJsonValue vDevice=vBackend.toObject()[device->name()];
@@ -91,6 +91,8 @@ void InputBackend::loadCalibration(InputDevice* device)
     qDebug()<<matrix;
     
     device->setMatrix(matrix);
+    
+    return true;
 }
 
 void InputBackend::saveCalibration(InputDevice* device)
