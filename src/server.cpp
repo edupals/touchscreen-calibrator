@@ -43,5 +43,9 @@ void Server::OnDevicesChanged()
     
     for (InputDevice* device : m_backend->devices()) {
         qInfo()<<"--"<<device->name();
+        
+        bool calibrated = m_backend->loadCalibration(device);;
+        
+        qDebug()<<"loaded calibration: "<<calibrated;
     }
 }
