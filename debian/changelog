@@ -1,3 +1,9 @@
+touchscreen-calibrator (0.10.0.0) focal; urgency=medium
+
+  * Testing release
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Thu, 11 Feb 2021 13:14:37 +0100
+
 touchscreen-calibrator (0.9.1.0) bionic; urgency=medium
 
   * Master tag: 8e026ae48a7c85eefd1efb0643ea130e74c030fa
