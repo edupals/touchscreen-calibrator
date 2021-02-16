@@ -18,7 +18,3 @@ add_executable(touchscreen-calibrator main.cpp calibrationwindow.cpp inputbacken
 target_link_libraries(touchscreen-calibrator PkgConfig::X11 PkgConfig::XI Qt5::Core Qt5::Widgets Qt5::Quick)
 
 install(TARGETS touchscreen-calibrator RUNTIME DESTINATION bin)
-
-install(FILES "rsrc/touchscreen-calibrator.svg"
-    DESTINATION "usr/share/icons/hicolor/48x48/apps/"
-)
