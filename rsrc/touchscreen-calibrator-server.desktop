@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Service
+Icon=touchscreen-calibrator
+Name=Touchscreen calibrator server
+Comment=Battery, Display and CPU power management and notification
+Exec=/usr/bin/touchscreen-calibrator server
+OnlyShowIn=KDE;
+
+
