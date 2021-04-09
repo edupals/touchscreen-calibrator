@@ -31,6 +31,7 @@ CalibrationWindow::CalibrationWindow(InputBackend* backend) : QQuickView(nullptr
     
     rootContext()->setContextProperty("proxy",proxy);
     setSource(QUrl(QStringLiteral("qrc:/calibration.qml")));
+    setIcon(QIcon(":/touchscreen-calibrator.svg"));
     
     showFullScreen();
     //show();

@@ -49,7 +49,7 @@ class InputBackend: public QObject
     virtual void listen(QWindow* window,InputDevice* device)=0;
     virtual void listen()=0;
     
-    void loadCalibration(InputDevice* device);
+    bool loadCalibration(InputDevice* device);
     void saveCalibration(InputDevice* device);
     
     signals:
