@@ -1,3 +1,10 @@
+touchscreen-calibrator (1.0.0.0) focal; urgency=medium
+
+  * Master tag: 2ba95470fd4ac83447eeb33889384c6844316db2
+  * Feature complete version, bugs are expected.
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Fri, 09 Apr 2021 10:27:31 +0200
+
 touchscreen-calibrator (0.10.0.0) focal; urgency=medium
 
   * Testing release

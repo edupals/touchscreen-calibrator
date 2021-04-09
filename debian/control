@@ -2,7 +2,7 @@ Source: touchscreen-calibrator
 Section: utils
 Priority: optional
 Maintainer: Enrique Medina Gremaldos <quiqueiii@gmail.com>
-Build-Depends: debhelper (>=9), cmake, qtbase5-dev, qtdeclarative5-dev, extra-cmake-modules, libx11-dev, libxi-dev
+Build-Depends: debhelper (>=9), cmake, qtbase5-dev, qtdeclarative5-dev, extra-cmake-modules, libx11-dev, libxi-dev, plasma-framework
 Standards-Version: 3.9.7
 Homepage: https://github.com/edupals/touchscreen-calibrator
 
