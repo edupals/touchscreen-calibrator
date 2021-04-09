@@ -1,3 +1,9 @@
+touchscreen-calibrator (1.0.0.0) bionic; urgency=medium
+
+  * Mastar tag: 2ba95470fd4ac83447eeb33889384c6844316db2
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Fri, 09 Apr 2021 10:42:05 +0200
+
 touchscreen-calibrator (0.9.1.0) bionic; urgency=medium
 
   * Master tag: 8e026ae48a7c85eefd1efb0643ea130e74c030fa
