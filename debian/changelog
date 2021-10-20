@@ -1,3 +1,9 @@
+touchscreen-calibrator (1.0.1.0) bionic; urgency=medium
+
+  * Fixed bad etc install path
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Wed, 20 Oct 2021 14:09:07 +0200
+
 touchscreen-calibrator (1.0.0.0) bionic; urgency=medium
 
   * Mastar tag: 2ba95470fd4ac83447eeb33889384c6844316db2
