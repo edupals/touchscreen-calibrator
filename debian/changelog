@@ -1,3 +1,9 @@
+touchscreen-calibrator (1.0.2.0) focal; urgency=medium
+
+  * Master tag: e509d3fbce470b63caceef60fa3015504f9b3b20
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Tue, 15 Mar 2022 13:38:17 +0100
+
 touchscreen-calibrator (1.0.1.0) focal; urgency=medium
 
   * Fixed bad etc install path
