@@ -23,14 +23,11 @@
 
 Server::Server(InputBackend* backend) : m_backend(backend)
 {
-    qInfo()<<"Found input devices:";
-    
-    for (InputDevice* device : backend->devices()) {
-        qInfo()<<"--"<<device->name();
-    }
-    
     qInfo()<<"server mode";
     
+    //perform an initial calibration
+    OnDevicesChanged();
+
     connect(m_backend,&InputBackend::devicesChanged,this,&Server::OnDevicesChanged);
     m_backend->listen();
 }
