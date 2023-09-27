@@ -1,3 +1,9 @@
+touchscreen-calibrator (1.0.2.1) jammy; urgency=medium
+
+  * Jammy release
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Wed, 27 Sep 2023 18:37:32 +0200
+
 touchscreen-calibrator (1.0.2.0) focal; urgency=medium
 
   * Master tag: e509d3fbce470b63caceef60fa3015504f9b3b20
