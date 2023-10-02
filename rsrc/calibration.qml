@@ -1,7 +1,6 @@
 import org.kde.kirigami 2.4 as Kirigami
 import QtQuick 2.6
 import QtQuick.Controls 2.6 as QQC2
-import org.kde.plasma.core 2.0 as PlasmaCore
 
 Canvas
 {
@@ -56,7 +55,7 @@ Canvas
         anchors.centerIn: parent
         modal: true
         visible:false
-        title: i18nd("touchscreen-calibrator","Calibration completed")
+        title: qsTr("Calibration completed")
         standardButtons: QQC2.Dialog.Ok | QQC2.Dialog.Cancel
         
         onAccepted: {
@@ -106,7 +105,7 @@ Canvas
         anchors.centerIn: parent
         modal: true
         visible:true
-        title: i18nd("touchscreen-calibrator","Select an input device")
+        title: qsTr("Select an input device")
         standardButtons: QQC2.Dialog.Ok | QQC2.Dialog.Cancel
         
         //onAccepted: accept(devices[devicesList.currentIndex].id);
