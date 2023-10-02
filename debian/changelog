@@ -1,3 +1,10 @@
+touchscreen-calibrator (1.1.0.0) jammy; urgency=medium
+
+  * Install path fixes
+  * WIP on locales
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Mon, 02 Oct 2023 18:37:07 +0200
+
 touchscreen-calibrator (1.0.2.1) jammy; urgency=medium
 
   * Jammy release
