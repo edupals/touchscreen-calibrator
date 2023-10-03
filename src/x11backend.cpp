@@ -29,9 +29,6 @@
 
 using namespace std;
 
-/* static factory */
-X11Factory factory;
-
 X11InputBackend::X11InputBackend()
 {
     
