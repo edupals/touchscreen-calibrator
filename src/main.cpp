@@ -20,6 +20,7 @@
 #include "calibrationwindow.hpp"
 #include "x11listener.hpp"
 #include "inputbackend.hpp"
+#include "x11backend.hpp"
 #include "inputdevice.hpp"
 #include "server.hpp"
 
@@ -47,6 +48,9 @@ int main(int argc,char* argv[])
     parser.addPositionalArgument("mode", "gui,server");
     
     parser.process(app);
+
+    // late factory initialization
+    X11Factory x11Factory;
     
     map<QString,BackendFactory*> backends = BackendFactory::factories();
     
