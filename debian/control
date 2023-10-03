@@ -8,6 +8,6 @@ Homepage: https://github.com/edupals/touchscreen-calibrator
 
 Package: touchscreen-calibrator
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, qml-module-org-kde-kirigami2
 Description: Touchscreen calibration tool
  This tool allows to calibrate absolute pointing devices
