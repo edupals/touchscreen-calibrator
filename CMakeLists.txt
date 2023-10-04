@@ -17,20 +17,21 @@ install(FILES rsrc/touchscreen-calibrator-server.desktop
 
 set(langs "es-es" "ca-es")
 set(locales)
-
+set(source_locales)
 foreach(lang ${langs})
     set(file "/locale/touchscreen-calibrator_${lang}")
     set(ts "${CMAKE_CURRENT_SOURCE_DIR}${file}.ts")
     set(qm "${CMAKE_CURRENT_SOURCE_DIR}${file}.qm")
     list(APPEND locales ${qm})
+    list(APPEND source_locales ${ts})
     #message(${qm})
 endforeach()
 
 cmake_print_variables(locales)
 
 add_custom_target(
-        locales
-        COMMAND lrelease ${locales}
+        localebuild
+        COMMAND lrelease ${source_locales}
         BYPRODUCTS ${locales}
         )
 
