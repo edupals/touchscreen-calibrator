@@ -14,6 +14,7 @@ set(CMAKE_AUTORCC ON)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Quick)
 
 add_executable(touchscreen-calibrator main.cpp calibrationwindow.cpp inputbackend.cpp inputdevice.cpp x11backend.cpp x11device.cpp x11listener.cpp proxy.cpp server.cpp ../rsrc/resources.qrc)
+add_dependencies(touchscreen-calibrator localebuild)
 
 target_link_libraries(touchscreen-calibrator PkgConfig::X11 PkgConfig::XI Qt5::Core Qt5::Widgets Qt5::Quick)
 
