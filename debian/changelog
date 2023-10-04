@@ -1,3 +1,9 @@
+touchscreen-calibrator (1.2.1.0) jammy; urgency=medium
+
+  * Fixed cmake locale build
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Wed, 04 Oct 2023 14:20:50 +0200
+
 touchscreen-calibrator (1.2.0.0) jammy; urgency=medium
 
   * Using Qt translation system instead of gettext
