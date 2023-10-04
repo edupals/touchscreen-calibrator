@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QDir>
+
 #include "calibrationwindow.hpp"
 #include "x11listener.hpp"
 #include "inputbackend.hpp"
@@ -27,7 +29,7 @@
 #include <QApplication>
 #include <QString>
 #include <QCommandLineParser>
-#include <X11/extensions/XInput.h>
+#include <QTranslator>
 
 #include <iostream>
 #include <map>
@@ -36,6 +38,9 @@ using namespace std;
 
 int main(int argc,char* argv[])
 {
+
+    const QString localeDir = "/usr/share/touchscreen-calibrator/locale/";
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc,argv);
     QApplication::setApplicationName("Touchscreen calibrator");
@@ -48,6 +53,21 @@ int main(int argc,char* argv[])
     parser.addPositionalArgument("mode", "gui,server");
     
     parser.process(app);
+
+    QDir locales(localeDir);
+    QStringList filters;
+    filters << "*.qm";
+    locales.setNameFilters(filters);
+
+    QTranslator translator;
+
+    for (QString file : locales.entryList()) {
+        QString localePath = localeDir + file;
+        qDebug()<<"adding locale: "<<localePath;
+        translator.load(localePath);
+    }
+
+    QCoreApplication::installTranslator(&translator);
 
     // late factory initialization
     X11Factory x11Factory;
