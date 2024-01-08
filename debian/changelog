@@ -1,3 +1,9 @@
+touchscreen-calibrator (1.2.3.0) jammy; urgency=medium
+
+  * Using type application for autostart
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Mon, 08 Jan 2024 14:26:31 +0100
+
 touchscreen-calibrator (1.2.2.0) jammy; urgency=medium
 
   * Some fixes on autostart desktop
