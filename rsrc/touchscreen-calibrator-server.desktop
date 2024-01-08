@@ -1,5 +1,5 @@
 [Desktop Entry]
-Type=Service
+Type=Application
 Icon=touchscreen-calibrator
 Name=Touchscreen calibrator server
 Comment=Battery, Display and CPU power management and notification
